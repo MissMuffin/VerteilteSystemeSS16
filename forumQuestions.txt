@@ -4,6 +4,7 @@
 1. [Communication Paradigms](#communication-paradigms)
 1. [Basics](#basics)
 1. [Networks](#networks)
+1. [**Glossary**](#glossary)
 
 ##Architecture of Distributed Systems
 * Worin unterscheiden sich Client/Server- und Peer-to-Peer-Architekturen?
@@ -67,3 +68,15 @@ What is latency? What is a typical value for latency in a laboratory like C 624?
 
 * Was versteht man unter Bandbreite? In welchem Bereich (Größenordnung) liegt die Bandbreite bei einer Kommunikation zwischen zwei Rechnern in einem Labor der Angewandten Informatik?
 What is bandwidth? What is a typical value for bandwidth in a laboratory like C 624?
+
+***
+##Glossary
+
+*TCP - Transmission Control Protocol*
+numbers packages, ensures receiver gets packages w/ acknowledgements, retransmission if packages are lost, 3-way handshake to set up socket connection, datastream, heavy weight connection
+
+*UDC - User Datagram Protocol*
+light weight transport layer, unnumbered and unordered packages, does not handle lost/not received packages (no handling of acknowledgment, time out, retransmission), sends data in packets, unreliable service, compatible with broadcasts and multicasting
+
+*Round trip time*
+Time it takes for a data packet to arrive at a receiver of network and for the receiver to sent an acknowldgement
