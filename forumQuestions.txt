@@ -47,27 +47,51 @@ What is scalability?
 * Was versteht man unter Race Conditions? In welchen Situationen treten sie auf? Was für Lösungen gibt es?
 What are race conditions? When do they occur? Solutions?
 
+== when accessing shared ressources
+- solution:
+    + 
+
 * Was versteht man unter Heterogenität? In welcher Form kommt Heterogenität in verteilten Systemen vor?
 What is heterogeneity? In what situations, in distributed systems, one has to deal with heterogeneity?
+
+== diversity
+is present when there are different hardware architectures, operating systems, programming environments or communication protocols
 
 ##Networks
 * Was ist der Vorteil einer Schichten-Architektur wie ISO/OSI?
 What are the benefits of a layered architecture like ISO/OSI for system developers?
 
+- abstraction: each layer has different & independent function
+- each layer uses information from layer below it & provides services to layer above it
+
 * Was sind die Dienste der ISO/OSI Schicht 2? Geben Sie mindestens zwei Protokolle an, die dieser Schicht zugeordnet werden können.
 What are the services provided by ISO/OSI layer 2? Name two protocols of this layer.
+
+Data Link: transmission of packages between directly connected nodes
+Protocols: Ethernet MAC, ATM, PPP
 
 * Was sind die Dienste der ISO/OSI Schicht 3? Geben Sie mindestens zwei Protokolle an, die dieser Schicht zugeordnet werden können.
 What are the services provided by ISO/OSI layer 3? Name two protocols of this layer.
 
+Network: transport of data packages between computers without a direct connection -> routing
+Protocols: IP, ICMP, ATM
+
 * Was sind die Dienste der ISO/OSI Schicht 4? Geben Sie mindestens zwei Protokolle an, die dieser Schicht zugeordnet werden können.
 What are the services provided by ISO/OSI layer 4? Name two protocols of this layer.
+
+Transport: messages between communication ports  attachted to processes
+Protocols: TCP, UDP
 
 * Was versteht man unter Latenz? In welchem Bereich (Größenordnung) liegt die Latenz bei einer Kommunikation zwischen zwei Rechnern in einem Labor der Angewandten Informatik?
 What is latency? What is a typical value for latency in a laboratory like C 624?
 
+== delay after send - time it takes for an empty message to arrive at the receiver
+
+
 * Was versteht man unter Bandbreite? In welchem Bereich (Größenordnung) liegt die Bandbreite bei einer Kommunikation zwischen zwei Rechnern in einem Labor der Angewandten Informatik?
 What is bandwidth? What is a typical value for bandwidth in a laboratory like C 624?
+
+== data transfer rate
 
 ***
 ##Glossary
@@ -80,3 +104,7 @@ light weight transport layer, unnumbered and unordered packages, does not handle
 
 *Round trip time*
 Time it takes for a data packet to arrive at a receiver of network and for the receiver to sent an acknowldgement
+
+*Latency*
+
+*Bandwidth*
