@@ -32,3 +32,6 @@ local.properties
 
 # Java annotation processor (APT)
 .factorypath
+
+# ignore zips
+*.zip
