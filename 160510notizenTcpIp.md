@@ -1,0 +1,50 @@
+- ssl: muss voll in anwendung implementiert sein
+- ipv4: muss admin recht haben
+- ipv4 adressen: 4 bytes lang -> 4 decimals
+- adressen sind weltweot eindeutig
+- adressen werden vergeben durch IANA = Internet Assigned Numbers Society
+- ipv4 adresse besteht aus netid & hostid (=weltweit vergeben & lokal vergeben)
+- verschiedene definierte klassen die netid und hostid unterschiedlich viele bits zuweisen ANSCHAUEN
+- B: 128 bis 191 für klasse b ipv4 adresse
+- subnet = physikalisch verbundenes netz
+- wenn 2 adressen nicht im gleichen physikalischen netz sind, muss geroutet werden
+- wenn 2 bytes für netid, dann letzte 2 bytes können für subnet und host aufsplittet werden
+- subnet maske = besteht an allen den stellen aus 1 die die netid und subnet id einschließen
+- subnet maske angewendet durch bitweises AND (logisches AND)
+- ipv4 probleme: klasse b raum ausgeschöpft
+- firewalls machen network adress translation
+- ipv6: launch 2012
+- ipv4 hat 4 x 32 bits für ip adressraum -> adress verschnitt möglich dadurch, man kann struktur festlegen wie man möchte
+- flow label = verneinfacht routing: gleiche labels werden gleich in gleiche richtung weitergeleitet, vereinfacht straming sehr stark
+- next header struktur = kann drin stehen tcp oder routing oder fragmentation information : kündigt nächsten header an
+- hop limit = time to live, verschieden für jeden router
+- ipv4: time to live ändert sich bei jedem routing, header cheksum muss dann immer neu berechnet werden
+- wurde bei ipv6 geändert und vereinfacht, dadurch schneller
+- router müssen nur ersten beiden header anschauen, der rest wird einfach als peyload weitergleitet, dadurch schneller als ipv4
+- transport layer vs network layer: routing für höhere schichten tranparent, transport schicht nicht an routing interessiert ???
+- OSI 4 : TCP 
+- zusätzlich zu ip braucht man adresse die innerhalb eines rechners process adresse -> port
+- 16 bit port adressen
+- müssen eindeutig sein
+- <1024 ports : von ICANN vergeben
+- ftp: port 20 & 21 -> parallel zu übertragung kann mit dem server kommuniziert werden (kontroll sequenzen)
+- ssh: port 22
+- www: port 80
+- https over tls: port 443
+- udp: unrealiable protocol -> man hofft, dass es ankommt
+- zbsp videostream: verlorene daten können verschmerzt werden, nicht wichtig
+- tcp: source, dest ports, checksum, sequence, aknowledgement
+- gesicherter datenstream mit tcp für oberste schicht
+- tcp: wenn man folgende pakete übertragenen möchte
+- jedes paket wird für sich geroutet -> paketreihenfolge durch paketnummerierung (sequence number) und empfänger muss dann damit string zusammen im bauen
+- window = puffer : man vereinbart wie viele datenpakete man schicken kann 
+- ganzer bereich wird dann im window acknowldegded -> nächster window bereich kann dann abgeschickt werden
+- wird paket verloren, kann empfänger fehlendes paket neu anfordern
+- aber: man muss zu beginn verhandeln: was ist meine window size und wie ist meine nummerieung
+- -> 3 way handshake
+	+ 1. sequence number vorschlagen durch client
+	+ 2. server stimmt zu und sendet eigenen sequence number
+	+ 3. client stimmt servers sequence number zu
+- window normalerweise 128 x maximale tcp paketgröße
+- nahc handshake gibt es fluss kontrolle (flow control) = cumulative acknowledgement, wieder senden von paketen, kontrolle über sendegeschwindigkeit
+- ROUNTING ANSHCAUEN
