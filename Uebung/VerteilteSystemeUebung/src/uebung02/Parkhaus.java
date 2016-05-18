@@ -36,7 +36,6 @@ class Parkhaus {
 	 * Auto and the remaining number of free spaces are logged. 
 	 * 
 	 * @param 	auto						The Auto that is driving in
-	 * @throws 	InterruptedException		If an Auto's {@link Auto#wait()} is interrupted
 	 */
 	public synchronized void einfahren(Auto auto) {
 		if (freiePlaetze == 0) {
@@ -61,7 +60,7 @@ class Parkhaus {
 	 * Synchronized method that counts up {@link Parkhaus#freiePlaetze} by one, logs the 
 	 * name of the Auto that is leaving and calls notifyAll() to notify the next Auto to enter the Parkhaus
 	 * 
-	 * @param name	The Auto that is leaving
+	 * @param auto	The Auto that is leaving
 	 */
 	public synchronized void ausfahren(Auto auto) {
 		freiePlaetze++;
