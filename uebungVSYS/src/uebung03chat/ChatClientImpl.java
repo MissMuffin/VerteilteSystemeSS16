@@ -34,14 +34,12 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient, R
 
 		while(true){
 			try{
-				System.out.println("test in try");
 				InputStreamReader isReader = new InputStreamReader(System.in);
 				BufferedReader bReader = new BufferedReader(isReader);
 				String input = bReader.readLine();
 				chatServer.sendMessage(this.getName(), input);
 				
 			}catch(IOException e){
-				System.out.println("test in catch");
 				e.printStackTrace();
 //				Logger.getInstance().error("[ChatClientImpl] error reading input: " + e);
 			}
