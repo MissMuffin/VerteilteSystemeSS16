@@ -9,7 +9,6 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ChatClientImpl extends UnicastRemoteObject implements ChatClient, Runnable {
 
-	private static final long serialVersionUID = 1L;
 	private String name;
 	private ChatServer chatServer;
 	public ChatClientImpl(String n, ChatServer cS) throws RemoteException {
@@ -35,12 +34,15 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient, R
 
 		while(true){
 			try{
+				System.out.println("test in try");
 				InputStreamReader isReader = new InputStreamReader(System.in);
 				BufferedReader bReader = new BufferedReader(isReader);
 				String input = bReader.readLine();
 				chatServer.sendMessage(this.getName(), input);
 				
 			}catch(IOException e){
+				System.out.println("test in catch");
+				e.printStackTrace();
 //				Logger.getInstance().error("[ChatClientImpl] error reading input: " + e);
 			}
 		}

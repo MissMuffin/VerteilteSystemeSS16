@@ -19,6 +19,7 @@ public class ChatServerMain {
 				Naming.rebind("ChatServer", chatServer);
 			}
 			System.out.println("ChatServer running");
+//			chatServer.addClient(new ChatClientImpl("john", chatServer));
 
 		}catch(RemoteException re){
 			re.printStackTrace();

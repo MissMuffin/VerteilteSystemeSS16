@@ -21,15 +21,17 @@ public class ChatClientMain {
 			
 			String name = args[1];
 			ChatClientImpl chatClient = new ChatClientImpl(name, chatServer);
-			if(!chatServer.addClient(chatClient)){
+			
+			boolean added = chatServer.addClient(chatClient);
+			if(!added){
 				System.out.println("This name is already taken, please chose another nickname.");
-				return;
 			}else{
 				new Thread(chatClient).start();
 				System.out.println(name + ", you have been added to the chat succesfully.");
 			}
 					
 		}catch(RemoteException e){
+			e.printStackTrace();
 //			Logger.getInstance().error("[ChatClientMain] error when creating and adding new Client: " + e);
 		}
 	}
