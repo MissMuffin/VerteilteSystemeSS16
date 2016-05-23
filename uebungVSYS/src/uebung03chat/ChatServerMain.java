@@ -11,10 +11,7 @@ public class ChatServerMain {
 
 	public static void main(String[] args){
 
-		System.out.println("test");
-
 		try{
-			System.out.println("test in try");
 			ChatServerImpl chatServer = new ChatServerImpl();
 			try {
 				Naming.bind("ChatServer", chatServer);
