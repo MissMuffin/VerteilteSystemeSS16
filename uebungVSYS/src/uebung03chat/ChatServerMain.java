@@ -9,12 +9,19 @@ import java.rmi.RemoteException;
 public class ChatServerMain {
 
 	public static void main(String[] args) throws AlreadyBoundException, MalformedURLException {
+		System.out.println("test");
 		try{
+			System.out.println("test in try");
 			ChatServerImpl chatServer = new ChatServerImpl();
-			Naming.bind("ChatServer", chatServer);
+			try {
+				Naming.bind("ChatServer", chatServer);
+			} catch (AlreadyBoundException e) {
+				Naming.rebind("ChatServer", chatServer);
+			}
 			System.out.println("ChatServer running");
 
 		}catch(RemoteException re){
+			re.printStackTrace();
 //			Logger.getInstance().error("[ChatServerMain] RemoteException when starting the Server:" + re);
 		}
 	}
