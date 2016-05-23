@@ -5,6 +5,8 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
+import util.Logger;
+
 
 /**
  * Main-method that starts the server and binds the server name to rmiregistry.
@@ -27,11 +29,10 @@ public class ChatServerMain {
 			} catch (AlreadyBoundException e) {
 				Naming.rebind("ChatServer", chatServer);
 			}
-			System.out.println("ChatServer running");
+			Logger.getInstance().info("ChatServer running");
 
 		}catch(RemoteException | MalformedURLException e){
-			System.out.println("ChatServer exception");
-			e.printStackTrace();
+			Logger.getInstance().error(e.getMessage());
 		}
 	}
 

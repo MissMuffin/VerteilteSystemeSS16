@@ -8,6 +8,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import util.Logger;
+
 
 /**
  * Main-method to start the chat client. 
@@ -15,7 +17,7 @@ import java.rmi.RemoteException;
  *
  */
 public class ChatClientMain {
-	
+	private static Logger logger= Logger.getInstance();
 	/**
 	 * The main-method checks the arguments, the availability of the client's name
 	 * and adds the client to the server. 
@@ -29,7 +31,7 @@ public class ChatClientMain {
 	public static void main(String[] args) throws MalformedURLException, NotBoundException, RemoteException {
 		
 		if(args.length != 2){
-			System.out.println("Please enter first the name of the Server and then your nickname");
+			logger.info("Please enter first the name of the Server and then your nickname");
 			return;
 		}
 				
@@ -43,7 +45,7 @@ public class ChatClientMain {
 			
 			ChatClientImpl chatClient = new ChatClientImpl(name, chatServer);
 			while (!chatServer.addClient(chatClient)) {
-				System.out.println("This name is already taken, please chose another nickname.");
+				logger.info("This name is already taken, please chose another nickname.");
 				InputStreamReader isr = new InputStreamReader(System.in);
 				BufferedReader br = new BufferedReader(isr);
 				try{
@@ -54,13 +56,11 @@ public class ChatClientMain {
 				chatClient.setName(name);
 			}
 			new Thread(chatClient).start();
-			System.out.println(name + ", you have been added to the chat succesfully.");
+			logger.info(name + ", you have been added to the chat succesfully.");
 	
 					
 		}catch(RemoteException e){
-			e.printStackTrace();
-//			Logger.getInstance().error("[ChatClientMain] error when creating and adding new Client: " + e);
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 

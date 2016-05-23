@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import util.Logger;
+
 
 /**
  * Implements the chat client interface. 
@@ -77,8 +79,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient, R
 				chatServer.sendMessage(this.getName(), input);
 				
 			}catch(IOException e){
-				e.printStackTrace();
-//				Logger.getInstance().error("[ChatClientImpl] error reading input: " + e);
+				Logger.getInstance().error(e.getMessage());
 			}
 		}
 	}
