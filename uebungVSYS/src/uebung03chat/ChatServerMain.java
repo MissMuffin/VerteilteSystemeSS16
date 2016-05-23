@@ -5,7 +5,6 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-import uebung1.parkhaus.Logger;
 
 public class ChatServerMain {
 

@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import uebung1.parkhaus.Logger;
+
 
 public class ChatClientMain {
 	

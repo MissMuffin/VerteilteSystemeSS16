@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import uebung1.parkhaus.Logger;
-import uebung2.chat.ChatServer;
 
 public class ChatClientImpl extends UnicastRemoteObject implements ChatClient, Runnable {
 
@@ -43,7 +41,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient, R
 				chatServer.sendMessage(this.getName(), input);
 				
 			}catch(IOException e){
-				Logger.getInstance().error("[ChatClientImpl] error reading input: " + e);
+//				Logger.getInstance().error("[ChatClientImpl] error reading input: " + e);
 			}
 		}
 	}
