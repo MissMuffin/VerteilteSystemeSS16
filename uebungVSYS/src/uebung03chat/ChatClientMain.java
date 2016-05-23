@@ -16,7 +16,8 @@ public class ChatClientMain {
 		}
 				
 		try{
-			String serverUrl = "rmi://" + args[0]+"/ChatServer";
+			String servername= args[0];
+			String serverUrl = "rmi://" + servername + "/ChatServer";
 			ChatServer chatServer = (ChatServer)Naming.lookup(serverUrl);
 			
 			String name = args[1];
@@ -33,6 +34,7 @@ public class ChatClientMain {
 		}catch(RemoteException e){
 			e.printStackTrace();
 //			Logger.getInstance().error("[ChatClientMain] error when creating and adding new Client: " + e);
+			e.printStackTrace();
 		}
 	}
 
