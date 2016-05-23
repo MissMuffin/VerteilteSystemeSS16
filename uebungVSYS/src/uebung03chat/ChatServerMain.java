@@ -6,9 +6,18 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 
+/**
+ * Main-method that starts the server and binds the server name to rmiregistry.
+ * @author Bianca Ploch & Saba Kues
+ *
+ */
 public class ChatServerMain {
 
 
+	/**
+	 * Main-method that starts the server and binds the server name to rmiregistry.
+	 * @param args no arguments required
+	 */
 	public static void main(String[] args){
 
 		try{
@@ -19,7 +28,6 @@ public class ChatServerMain {
 				Naming.rebind("ChatServer", chatServer);
 			}
 			System.out.println("ChatServer running");
-//			chatServer.addClient(new ChatClientImpl("john", chatServer));
 
 		}catch(RemoteException | MalformedURLException e){
 			System.out.println("ChatServer exception");
