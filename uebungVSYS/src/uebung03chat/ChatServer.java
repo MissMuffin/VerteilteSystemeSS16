@@ -1,4 +1,4 @@
-package uebung3chat;
+package uebung03chat;
 
 import java.rmi.*;
 

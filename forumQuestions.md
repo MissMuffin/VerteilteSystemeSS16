@@ -216,9 +216,6 @@ Why should the ARP service forget mappings IP address --> MAC address? How can t
 [OSI layer 7](#osi7)
 [Latency](#latency)
 [Bandwidth](#bandwidth)
-[](#)
-[](#)
-[](#)
 
 *<a name="tcp"></a>`TCP - Transmission Control Protocol`*
 numbers packages, ensures receiver gets packages w/ acknowledgements, retransmission if packages are lost, 3-way handshake to set up socket connection, datastream, heavy weight connection
