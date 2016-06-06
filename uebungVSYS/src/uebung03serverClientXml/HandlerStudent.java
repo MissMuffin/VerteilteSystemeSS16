@@ -15,7 +15,7 @@ public class HandlerStudent {
 	
 	public HandlerStudent() {
 		try {
-			context = JAXBContext.newInstance(Student.class);
+			context = JAXBContext.newInstance(Student.class); //TODO check mulitple classes new instance
 			marshaller = context.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			unmarshaller = context.createUnmarshaller();
@@ -28,7 +28,7 @@ public class HandlerStudent {
 		try {
 			File xmlFile = new File(path);
 			marshaller.marshal(student, xmlFile);
-			marshaller.marshal(student,  System.out);			
+			marshaller.marshal(student,  System.out);	//TODO debug
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

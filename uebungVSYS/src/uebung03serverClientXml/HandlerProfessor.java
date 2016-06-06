@@ -15,7 +15,7 @@ public class HandlerProfessor{
 	
 	public HandlerProfessor() {
 		try {
-			context = JAXBContext.newInstance(Professor.class);
+			context = JAXBContext.newInstance(Professor.class); //TODO check mulitple classes new instance
 			marshaller = context.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			unmarshaller = context.createUnmarshaller();
