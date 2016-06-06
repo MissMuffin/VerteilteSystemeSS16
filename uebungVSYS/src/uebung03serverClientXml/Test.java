@@ -14,7 +14,7 @@ public static void main(String[] args) {
 		s.setSurname("Doe");
 		
 		Address a1 = new Address();
-		a1.setStreet("Cool Street");
+		a1.setStreet("d");
 		a1.setHouseNumber(111);
 		a1.setPostCode(1234);
 		a1.setCity("Berlin");
@@ -24,7 +24,7 @@ public static void main(String[] args) {
 		s.setStudentNumber(5678);
 		s.setProgram("Cool Arts");
 		
-		handlerStudent.marshal(s, Paths.XML_STUDENT);
+		handlerStudent.marshal(s, Paths.XML_STUDENT_SERVER);
 		
 		
 		Professor p = new Professor();
@@ -32,7 +32,7 @@ public static void main(String[] args) {
 		p.setSurname("Doe");
 		
 		Address a2 = new Address();
-		a2.setStreet("Cool Street");
+		a2.setStreet("Street");
 		a2.setHouseNumber(111);
 		a2.setPostCode(1234);
 		a2.setCity("Berlin");
@@ -45,7 +45,7 @@ public static void main(String[] args) {
 		handlerProfessor.marshal(p, Paths.XML_PROFESSOR);
 		
 			
-		Student st = handlerStudent.unmarshal(Paths.XML_STUDENT);
+		Student st = handlerStudent.unmarshal(Paths.XML_STUDENT_SERVER);
 		System.out.println(st.toString());
 		
 		//write to disk and read

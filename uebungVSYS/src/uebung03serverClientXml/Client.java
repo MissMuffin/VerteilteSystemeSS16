@@ -22,7 +22,7 @@ public class Client {
 			File file = new File(Paths.XML_STUDENT);
 	        // Get the size of the file
 	        long length = file.length();
-	        byte[] bytes = new byte[16 * 1024];
+	        byte[] bytes = new byte[(int)length];
 	        InputStream in = new FileInputStream(file);
 	        OutputStream out = socket.getOutputStream();
 	

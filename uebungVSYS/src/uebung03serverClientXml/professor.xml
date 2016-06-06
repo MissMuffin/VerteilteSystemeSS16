@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Professor>
     <address>
-        <street>Cool Street</street>
+        <street>Street</street>
         <houseNumber>111</houseNumber>
         <postCode>1234</postCode>
         <city>Berlin</city>
