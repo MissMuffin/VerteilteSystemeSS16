@@ -66,46 +66,21 @@ public class Client {
 			InputStream in = new FileInputStream(file);
 			OutputStream out = socket.getOutputStream();
 			
-			logger.info("Please decide whether you will enter professor's [p] or"
-					+ "student's [s] details: ");
 			
-			InputStreamReader isr = new InputStreamReader(System.in);
-			BufferedReader br = new BufferedReader(isr);
-			
-			View view = new View(br.readLine());
-			File file;
-			if(view.decision.equalsIgnoreCase("s")){
-				file = new File(Paths.XML_STUDENT);
-			}else{
-				file = new File(Paths.XML_PROFESSOR);
-			}
 	        // Get the size of the file
 	        long length = file.length();
 	        byte[] bytes = new byte[(int)length];
-	        InputStream in = new FileInputStream(file);
-	        OutputStream out = socket.getOutputStream();
-	
-	        int count;
-	        while ((count = in.read(bytes)) > 0) {
-	            out.write(bytes, 0, count);
-	        }
-	
-	        out.close();
-	        in.close();
-	        socket.close();
-			
+	        	
 			//send file
 			int count;
 			while ((count = in.read(bytes)) > 0) {
 				out.write(bytes, 0, count);
 			}
 			
-//			DataInputStream in = new DataInputStream(socket.getInputStream());
-//			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-//			out.writeUTF("testest");
-//			String data = in.readUTF();
-//			System.out.println("Received: " + data);
-//			socket.close();
+			out.close();
+			in.close();
+			
+
 			
 		} catch(UnknownHostException e){
 			System.out.println("Sock: " + e.getMessage());
