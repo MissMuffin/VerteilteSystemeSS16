@@ -1,24 +1,33 @@
 package uebung03serverClientXml;
 
-public final class Paths {
-	public final static String PACKAGE = " home/sabi/workspace/VerteilteSystemeSS16/uebungVSYS/src/uebung03serverClientXml/";
+
+public class Paths {
+		
+	public final static Paths PACKAGE = new Paths("C:\\Users\\Bianca\\IMI-B\\VerteilteSysteme\\"
+			+ "uebungVSYS\\src\\uebung03serverClientXml\\");
+
+	public final static Paths STUDENT_XML_CLIENT = new Paths(PACKAGE + "client_student.xml");
+	public final static Paths PROFESSOR_XML_CLIENT = new Paths(PACKAGE + "client_professor.xml");
 	
-	public final static String XML_STUDENT_CLIENT = PACKAGE + "client_student.xml";
-	public final static String XML_PROFESSOR_CLIENT = PACKAGE + "client_professor.xml";
+	public final static Paths STUDENT_XML_SERVER= new Paths(PACKAGE + "server_student.xml");
+	public final static Paths PROFESSOR_XML_SERVER= new Paths(PACKAGE + "server_professor.xml");
 	
-	public final static String XML_STUDENT_SERVER= PACKAGE + "server_student.xml";
-	public final static String XML_PROFESSOR_SERVER= PACKAGE + "server_professor.xml";
-	
-	public static final String SER_STUDENT_SERVER = PACKAGE + "server_student.ser";
-	public static final String SER_PROFESSOR_SERVER = PACKAGE + "server_professor.ser";
+	public static final Paths STUDENT_SER_SERVER = new Paths(PACKAGE + "server_student.ser");
+	public static final Paths PROFESSOR_SER_SERVER = new Paths(PACKAGE + "server_professor.ser");
 	
 //	SCHEMAS
-	public static final String XSD_STUDENT = PACKAGE + "student.xsd";
+	public static final Paths STUDENT_SCHEMA = new Paths(PACKAGE + "student.xsd");
+	public static final Paths PROFESSOR_SCHEMA = new Paths(PACKAGE + "professor.xsd");
 	
-//	DEBUG
-	public final static String XML_STUDENT = PACKAGE + "student.xml";
-	public final static String XML_PROFESSOR = PACKAGE + "professor.xml";
 	
-	public static final String SER_STUDENT = PACKAGE + "student.ser";
-	public static final String SER_PROFESSOR = PACKAGE + "professor.ser";
+	private String path;
+	
+	public Paths(String path) {
+		this.path = path;
+	}
+	
+	@Override
+	public String toString() {
+		return path;
+	}
 }

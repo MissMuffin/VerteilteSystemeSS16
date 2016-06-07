@@ -27,8 +27,8 @@ public class Server {
 			
 			while(!cancel){
 				Socket clientSocket = listenSocket.accept();
-				Connection c = new Connection(clientSocket);
 				System.out.println("accepted connection with client");
+				Connection c = new Connection(clientSocket);
 			}
 		}catch (IOException e){
 			System.out.println("IO: "+ e.getMessage());
@@ -45,7 +45,7 @@ class Connection extends Thread{
 	Socket clientSocket;	
 	InputStream in;
 	OutputStream out;
-	HandlerStudent handlerStudent = new HandlerStudent();
+	StudentHandler studentHandler = new StudentHandler();
 	
 
 	public Connection(Socket clientSocket){
@@ -53,7 +53,7 @@ class Connection extends Thread{
 			this.clientSocket = clientSocket;
 			
 			in = clientSocket.getInputStream();
-			out = new FileOutputStream(Paths.XML_STUDENT_SERVER);
+			out = new FileOutputStream(Paths.STUDENT_XML_SERVER.toString());
 			this.start(); 
 			
 		}catch(IOException e){
@@ -70,8 +70,7 @@ class Connection extends Thread{
         		out.write(bytes, 0, count);
         	}
         	
-        	//TODO validierung & feedback to client
-        	Student s = handlerStudent.unmarshal(Paths.XML_STUDENT_SERVER);
+        	Student s = studentHandler.unmarshal(Paths.STUDENT_XML_SERVER);
     		System.out.println(s.toString());
         	
         	out.close();

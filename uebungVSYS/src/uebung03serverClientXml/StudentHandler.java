@@ -12,13 +12,13 @@ import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.SAXException;
 
-public class HandlerStudent {
+public class StudentHandler {
 
 	private JAXBContext context;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 	
-	public HandlerStudent() {
+	public StudentHandler() {
 		try {
 			context = JAXBContext.newInstance(Student.class); //TODO check mulitple classes new instance
 			marshaller = context.createMarshaller();
@@ -26,7 +26,7 @@ public class HandlerStudent {
 			unmarshaller = context.createUnmarshaller();
 			
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema schema = schemaFactory.newSchema(new File(Paths.XML_STUDENT_SERVER)); 
+			Schema schema = schemaFactory.newSchema(new File(Paths.STUDENT_XML_SERVER.toString())); 
 			marshaller.setSchema(schema);
 			
 		} catch (JAXBException e) {
@@ -36,19 +36,19 @@ public class HandlerStudent {
 		}
 	}
 	
-	public void marshal(Student student, String path) {
+	public void marshal(Student student, Paths path) {
 		try {
 			
-			File xmlFile = new File(path);
+			File xmlFile = new File(path.toString());
 			marshaller.marshal(student, xmlFile);			
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public Student unmarshal(String path) {
+	public Student unmarshal(Paths path) {
 		try {
-			return (Student)unmarshaller.unmarshal(new File(path));
+			return (Student)unmarshaller.unmarshal(new File(path.toString()));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
