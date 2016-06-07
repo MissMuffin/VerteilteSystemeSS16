@@ -10,16 +10,21 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import util.Logger;
+
 
 public class Server {
 		
 	private static  boolean cancel = false;
+	private static Logger logger = Logger.getInstance();
 	
 	public static void main(String[] args) {	
 		
 		try{
 			int serverPort = 7896;
 			ServerSocket listenSocket = new ServerSocket(serverPort);
+			logger.info("Server up, running and listening." );
+			
 			while(!cancel){
 				Socket clientSocket = listenSocket.accept();
 				Connection c = new Connection(clientSocket);
