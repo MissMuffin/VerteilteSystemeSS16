@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Student>
+<Professor>
     <address>
         <street>4</street>
         <houseNumber>4</houseNumber>
@@ -8,7 +8,7 @@
     </address>
     <name>4</name>
     <surname>4</surname>
-    <program>4</program>
-    <semester>4</semester>
-    <studentNumber>4</studentNumber>
-</Student>
+    <birthdate>1999-01-01</birthdate>
+    <faculty>4</faculty>
+    <personnelNumber>4</personnelNumber>
+</Professor>

@@ -26,8 +26,10 @@ public class StudentHandler {
 			unmarshaller = context.createUnmarshaller();
 			
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema schema = schemaFactory.newSchema(new File(Paths.STUDENT_XML_SERVER.toString())); 
-			marshaller.setSchema(schema);
+			Schema schema = schemaFactory.newSchema(new File(Paths.STUDENT_SCHEMA.toString()));
+			unmarshaller.setSchema(schema);
+			
+			unmarshaller.setEventHandler(new HumanValidationEventHandler());
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();

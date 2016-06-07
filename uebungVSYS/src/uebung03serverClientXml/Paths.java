@@ -19,6 +19,9 @@ public class Paths {
 	public static final Paths PROFESSOR_SCHEMA = new Paths(PACKAGE + "professor.xsd");
 	
 	
+	public static final Paths BAD_STUDENT_XML = new Paths(PACKAGE + "BAD_client_student.xml");
+	
+	
 	private String path;
 	
 	public Paths(String path) {
