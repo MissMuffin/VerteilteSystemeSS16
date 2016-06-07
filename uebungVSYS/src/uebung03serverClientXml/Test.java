@@ -6,8 +6,8 @@ public class Test {
 
 public static void main(String[] args) {
 		
-		HandlerStudent handlerStudent = new HandlerStudent();
-		HandlerProfessor handlerProfessor = new HandlerProfessor();
+		StudentHandler handlerStudent = new StudentHandler();
+		ProfessorHandler handlerProfessor = new ProfessorHandler();
 		
 		Student s = new Student();
 		s.setName("Tom-bla");
@@ -24,7 +24,7 @@ public static void main(String[] args) {
 		s.setStudentNumber(5678);
 		s.setProgram("Cool Arts");
 		
-		handlerStudent.marshal(s, Paths.XML_STUDENT_SERVER);
+		handlerStudent.marshal(s, Paths.STUDENT_XML_SERVER);
 		
 		
 		Professor p = new Professor();
@@ -42,19 +42,19 @@ public static void main(String[] args) {
 		p.setBirthdate(LocalDate.now());
 		p.setPersonnelNumber(112233);
 		
-		handlerProfessor.marshal(p, Paths.XML_PROFESSOR);
+		handlerProfessor.marshal(p, Paths.PROFESSOR_XML_CLIENT);
 		
 			
-		Student st = handlerStudent.unmarshal(Paths.XML_STUDENT_SERVER);
+		Student st = handlerStudent.unmarshal(Paths.STUDENT_XML_SERVER);
 		System.out.println(st.toString());
 		
 		//write to disk and read
-		st.write(Paths.SER_STUDENT);
-		Student student = (Student) st.read(Paths.SER_STUDENT);
+		st.write(Paths.STUDENT_SER_SERVER);
+		Student student = (Student) st.read(Paths.STUDENT_SER_SERVER);
 		System.out.println(student.toString());
 		
 		
-		Professor pr = handlerProfessor.unmarshal(Paths.XML_PROFESSOR);
+		Professor pr = handlerProfessor.unmarshal(Paths.PROFESSOR_XML_CLIENT);
 		System.out.println(pr.toString());		
 
 	}

@@ -7,13 +7,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-public class HandlerProfessor{
+public class ProfessorHandler {
 
 	private JAXBContext context;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 	
-	public HandlerProfessor() {
+	public ProfessorHandler() {
 		try {
 			context = JAXBContext.newInstance(Professor.class); //TODO check mulitple classes new instance
 			marshaller = context.createMarshaller();
@@ -24,9 +24,9 @@ public class HandlerProfessor{
 		}
 	}
 	
-	public void marshal(Professor professor, String path) {
+	public void marshal(Professor professor, Paths path) {
 		try {
-			File xmlFile = new File(path);
+			File xmlFile = new File(path.toString());
 			marshaller.marshal(professor, xmlFile);
 			marshaller.marshal(professor,  System.out);			
 		} catch (JAXBException e) {
@@ -34,9 +34,9 @@ public class HandlerProfessor{
 		}
 	}
 	
-	public Professor unmarshal(String path) {
+	public Professor unmarshal(Paths path) {
 		try {
-			return (Professor)unmarshaller.unmarshal(new File(path));
+			return (Professor)unmarshaller.unmarshal(new File(path.toString()));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

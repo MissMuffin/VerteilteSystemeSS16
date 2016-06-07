@@ -1,17 +1,14 @@
 package uebung03serverClientXml;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-public class Human implements Serializable {
+public abstract class Human implements Serializable {
+	
+	public abstract Human read(Paths path);
 
 	private String name;
 	private String surname;
@@ -45,9 +42,9 @@ public class Human implements Serializable {
 		this.address = address;
 	}
 	
-	public void write(String path) {
+	public void write(Paths path) {
 		try{			   
-			FileOutputStream fout = new FileOutputStream(path);
+			FileOutputStream fout = new FileOutputStream(path.toString());
 			ObjectOutputStream oos = new ObjectOutputStream(fout);   
 			oos.writeObject(this);
 			oos.close();
@@ -58,22 +55,6 @@ public class Human implements Serializable {
 		   }
 	}
 	
-	public Human read(String path) {
-		Human result = null;
-		try {
-			ObjectInputStream oi = new ObjectInputStream(new FileInputStream(Paths.SER_STUDENT));
-			result = (Human) oi.readObject();
-			oi.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
 	@Override
 	public String toString() {
 		return "\n [" + "name=" + name 

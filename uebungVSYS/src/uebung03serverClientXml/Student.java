@@ -1,5 +1,10 @@
 package uebung03serverClientXml;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -47,6 +52,23 @@ public class Student extends Human {
 				+ "\n  program=" + program 
 				+ "\n  semester=" + semester
 				+ "\n" + super.toString() + "] \n";
+	}
+
+	@Override
+	public Human read(Paths path) {
+		Human result = null;
+		 try {
+		     ObjectInputStream oi = new ObjectInputStream(new FileInputStream(Paths.STUDENT_SER_SERVER.toString()));
+		     result = (Human) oi.readObject();
+		     oi.close();
+		 } catch (FileNotFoundException e) {
+		     e.printStackTrace();
+		 } catch (IOException e) {
+		     e.printStackTrace();
+		 } catch (ClassNotFoundException e) {
+		     e.printStackTrace();
+		 }
+		 return result;
 	}	
 	
 	
