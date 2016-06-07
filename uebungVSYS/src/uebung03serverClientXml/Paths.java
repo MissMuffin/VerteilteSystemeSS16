@@ -1,7 +1,7 @@
 package uebung03serverClientXml;
 
 public final class Paths {
-	public final static String PACKAGE = "C:\\Users\\Bianca\\IMI-B\\VerteilteSysteme\\uebungVSYS\\src\\uebung03serverClientXml\\";
+	public final static String PACKAGE = " home/sabi/workspace/VerteilteSystemeSS16/uebungVSYS/src/uebung03serverClientXml/";
 	
 	public final static String XML_STUDENT_CLIENT = PACKAGE + "client_student.xml";
 	public final static String XML_PROFESSOR_CLIENT = PACKAGE + "client_professor.xml";
