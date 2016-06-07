@@ -1,5 +1,6 @@
 package uebung03serverClientXml;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -8,18 +9,34 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import util.Logger;
+
 public class Client {
 	
+	private static Logger logger = Logger.getInstance();
 	public static void main(String args[]) {
 		try{
 			int serverPort = 7896;			
 			Socket socket = new Socket("localhost", serverPort);
 			
-			File file = new File(Paths.XML_STUDENT);
+			logger.info("Please decide whether you will enter professor's [p] or"
+					+ "student's [s] details: ");
+			
+			InputStreamReader isr = new InputStreamReader(System.in);
+			BufferedReader br = new BufferedReader(isr);
+			
+			View view = new View(br.readLine());
+			File file;
+			if(view.decision.equalsIgnoreCase("s")){
+				file = new File(Paths.XML_STUDENT);
+			}else{
+				file = new File(Paths.XML_PROFESSOR);
+			}
 	        // Get the size of the file
 	        long length = file.length();
 	        byte[] bytes = new byte[(int)length];
