@@ -7,6 +7,8 @@ Vorlesungen/
 .metadata
 bin/
 
+#javadoc location
+uebungVSYS/doc/
 
 tmp/
 *.tmp
