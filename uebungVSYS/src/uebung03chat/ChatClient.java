@@ -3,10 +3,10 @@ package uebung03chat;
 import java.rmi.Remote;
 
 /**
- * @author Bianca Ploch & Saba Kues
- *
  * Interface for the chat client, including getter and setter methods
  * for the client's name and printing messages to the console.
+ * 
+ * @author Bianca Ploch & Saba Kues
  */
 public interface ChatClient extends Remote {
 	

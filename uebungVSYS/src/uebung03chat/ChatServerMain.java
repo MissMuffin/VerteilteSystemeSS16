@@ -15,14 +15,20 @@ import util.Logger;
  */
 public class ChatServerMain {
 
-
 	/**
 	 * Main-method that starts the server and binds the server name to rmiregistry.
+	 * The server objects is of type {@link ChatServerImpl} and thus impements the interface
+	 * {@link ChatServer}.
+	 * After successful binding a message that the server is running is printed to console.
+	 * 
+	 * @see ChatServerImpl
+	 * @see ChatServer
+	 * 
 	 * @param args no arguments required
 	 */
 	public static void main(String[] args){
 
-		try{
+		try {
 			ChatServerImpl chatServer = new ChatServerImpl();
 			try {
 				Naming.bind("ChatServer", chatServer);
@@ -31,8 +37,11 @@ public class ChatServerMain {
 			}
 			Logger.getInstance().info("ChatServer running");
 
-		}catch(RemoteException | MalformedURLException e){
-			Logger.getInstance().error(e.getMessage());
+		} catch (MalformedURLException e){
+			Logger.getInstance().error("Server url does not adhere to proper formatting");
+			
+		} catch (RemoteException e) {
+			Logger.getInstance().error("Registry could not be contacted for server name look up");
 		}
 	}
 
