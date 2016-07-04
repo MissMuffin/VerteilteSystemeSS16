@@ -3,18 +3,13 @@ package uebung04;
 import java.io.File;
 import java.nio.file.Paths;
 
-public class Path {
-//		
-//	public final static Path PACKAGE = new Path(
-//			Paths.get("").toAbsolutePath().normalize().toString() 
-//			+ "\\src\\uebung03serverClientXml\\");
-
-//	public final static Path PACKAGE = new Path(
-//			Paths.get("").toAbsolutePath().normalize().toString());
-
-//	public final static Path PACKAGE = new Path(
-//			getClass().getProtectionDomain().getCodeSource().getLocation().getPath().toString());
-	
+/**
+ * Contains paths for files used in this package.
+ * All paths will point to directory 'files' and work on both Linux and Windows systems.
+ * (Not tested on MacOS)
+ * @author Bianca Ploch
+ */
+public class Path {	
 	
 	public final static Path STUDENT_XML_CLIENT = new Path("client_student.xml");
 	public final static Path PROFESSOR_XML_CLIENT = new Path("client_professor.xml");
@@ -25,9 +20,6 @@ public class Path {
 	public static final Path STUDENT_SER_SERVER = new Path("server_student.ser");
 	public static final Path PROFESSOR_SER_SERVER = new Path("server_professor.ser");
 	
-	/**
-	 * Schema paths
-	 */
 	public static final Path STUDENT_SCHEMA = new Path("student.xsd");
 	public static final Path PROFESSOR_SCHEMA = new Path("professor.xsd");
 	
@@ -37,14 +29,18 @@ public class Path {
 	
 	private String path;
 	
+	/**
+	 * Constructor 
+	 * @param path The path for the file
+	 */
 	public Path(String path) {
 		this.path = path;
 	}
 	
-//	public String getPath() {
-//		return Paths.get(PACKAGE.toString()) + File.separator + path;
-//	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "files" + File.separator + path;

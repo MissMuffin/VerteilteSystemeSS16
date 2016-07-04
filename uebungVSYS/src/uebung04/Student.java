@@ -8,6 +8,10 @@ import java.io.ObjectInputStream;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Serializable class for Student for XML generation
+ * @author Bianca Ploch
+ */
 @XmlRootElement(name="Student")
 public class Student extends Human {
 
@@ -16,35 +20,65 @@ public class Student extends Human {
 	private int semester;
 		
 		
+	/**
+	 * Empty constructor
+	 */
 	public Student() {}
 	
+	/**
+	 * Getter for student number
+	 * @return The student number
+	 */
 	public int getStudentNumber() {
 		return studentNumber;
 	}
 	
+	/**
+	 * Setter for student number
+	 * @param studentNumber The student number
+	 */
 	@XmlElement
 	public void setStudentNumber(int studentNumber) {
 		this.studentNumber = studentNumber;
 	}
 	
+	/**
+	 * Getter for program
+	 * @return The program
+	 */
 	public String getProgram() {
 		return program;
 	}
 	
+	/**
+	 * Setter for program
+	 * @param program The program
+	 */
 	@XmlElement
 	public void setProgram(String program) {
 		this.program = program;
 	}
 	
+	/**
+	 * Getter for semester
+	 * @return The semester
+	 */
 	public int getSemester() {
 		return semester;
 	}
 	
+	/**
+	 * Setter for semester
+	 * @param semester The semester
+	 */
 	@XmlElement
 	public void setSemester(int semester) {
 		this.semester = semester;
 	}
 
+	/* (non-Javadoc)
+	 * @see uebung04.Human#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Student"
@@ -54,6 +88,9 @@ public class Student extends Human {
 				+ "\n" + super.toString() + "] \n";
 	}
 
+	/* (non-Javadoc)
+	 * @see uebung04.Human#read(uebung04.Path)
+	 */
 	@Override
 	public Human read(Path path) {
 		Human result = null;

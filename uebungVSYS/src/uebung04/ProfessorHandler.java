@@ -17,6 +17,11 @@ import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.SAXException;
 
+/**
+ * Handles marshalling and unmarshalling of Professor object. Implements ValidationEventHandler
+ * for onValidation events, such as validation errors.
+ * @author Bianca Ploch
+ */
 public class ProfessorHandler implements ValidationEventHandler {
 
 	private JAXBContext context;
@@ -25,6 +30,10 @@ public class ProfessorHandler implements ValidationEventHandler {
 	private Logger logger = Logger.getInstance();
 	private List<ValidationEvent> validationEvents = new ArrayList<ValidationEvent>();
 	
+	/**
+	 * Constructor that initializes Marshaller and Unmarshaller objects. 
+	 * Sets professor.xsd schema to Unmarshaller for XML validation during unmarshalling.
+	 */
 	public ProfessorHandler() {
 		try {
 			context = JAXBContext.newInstance(Professor.class);
@@ -46,6 +55,11 @@ public class ProfessorHandler implements ValidationEventHandler {
 		}
 	}
 	
+	/**
+	 * Marshals the professor into a XML file at the given path
+	 * @param professor Professor Object to be marshalled
+	 * @param path Path to save the resulting XML file
+	 */
 	public void marshal(Professor professor, Path path) {
 		try {
 			File xmlFile = new File(path.toString());
@@ -55,6 +69,13 @@ public class ProfessorHandler implements ValidationEventHandler {
 		}
 	}
 	
+	/**
+	 * Unmarshals the XML file at the given path
+	 * @param path Path for the XML file to be unmarshalled
+	 * @return The professor object from the XML file
+	 * @throws JAXBException To be handled in class that calls {@link #unmarshal(Path)} for 
+	 * communicating validation error to the client
+	 */
 	public Professor unmarshal(Path path) throws JAXBException {
 		Professor p = (Professor)unmarshaller.unmarshal(new File(path.toString()));
 		
@@ -69,6 +90,9 @@ public class ProfessorHandler implements ValidationEventHandler {
 		return p;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.xml.bind.ValidationEventHandler#handleEvent(javax.xml.bind.ValidationEvent)
+	 */
 	@Override
 	public boolean handleEvent(ValidationEvent event) {
 		validationEvents.add(event);

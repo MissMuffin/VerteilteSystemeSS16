@@ -1,5 +1,9 @@
 package uebung04;
 
+/**
+ * String resources for the project that are used more than once
+ * @author Bianca Ploch
+ */
 public class Strings {
 	
 	public static final String STUDENT = "student";

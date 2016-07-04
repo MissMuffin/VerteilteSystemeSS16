@@ -11,6 +11,16 @@ import java.net.Socket;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
+/**
+ * Class that handles the server side logic: communicates with client,
+ * handles XML validation events and saves correct data to hard drive as .SER file.
+ * Communication with client adheres to following protocol: first the Human type of the data to be sent is 
+ * transmitted as String by the client, the server sends an acknowledgement, the data is transfered from the client
+ * and saved by the server as an XML file. The server then unmarshalls the XML and validates it; is the validation successful
+ * the object is saved as .SER file on hard drive. If validation fails the server sends an error message to the client who then 
+ * reopens the communication and initiates a new communication with new user input.
+ * @author Bianca Ploch
+ */
 public class Connection {
 
 	private Socket clientSocket;	
@@ -19,15 +29,24 @@ public class Connection {
 	private Logger logger = Logger.getInstance();
 	
 
+	/**
+	 * Constructor
+	 * @param clientSocket The client to communicate with
+	 */
 	public Connection(Socket clientSocket){
 		this.clientSocket = clientSocket;
 	}
 
+	/**
+	 * Runs communication according to protocol. Runs {@link #receiveType(DataInputStream, DataOutputStream)} 
+	 * and {@link #receiveFile(String, DataInputStream)}, then validates received XML against schema. On validation success
+	 * the object from the unmarshalling of the XML is saved to hard drive as .SER and the server shutdown method {@link Server#cancel()} 
+	 * is called. If validation fails an error message is 
+	 * sent to the client and the server continues running.
+	 */
 	public void run() {
-		
 		        
-        try {
-        	
+        try {        	
         	DataInputStream inStream = new DataInputStream(clientSocket.getInputStream());
 			DataOutputStream outStream = new DataOutputStream(clientSocket.getOutputStream());
 			
@@ -74,6 +93,12 @@ public class Connection {
 		}
 	}
 	
+	/**
+	 * Receives the type of the data that will follow from the client.
+	 * @param inStream In stream from client
+	 * @param outStream Out stream to client
+	 * @return
+	 */
 	private String receiveType(DataInputStream inStream, DataOutputStream outStream) {
 		String type = "";
 		try {
@@ -87,6 +112,12 @@ public class Connection {
 		return type;
 	}
 	
+	/**
+	 * Receives the XML file from client and saves it to hard drive
+	 * @param type Type of the data: either Student or Professor
+	 * @param inStream In stream from client
+	 * @throws IOException 
+	 */
 	private void receiveFile(String type, DataInputStream inStream) throws IOException {
 		OutputStream out = null;
 		byte[] bytes = new byte[1000];

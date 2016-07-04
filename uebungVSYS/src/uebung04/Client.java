@@ -15,6 +15,12 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.LocalDate;
 
+/**
+ * Class that implements client logic: validating user input and communication with server.
+ * Contains main method for starting client.
+ * For description of the communication protocol see {@link Connection}
+ * @author Bianca Ploch
+ */
 public class Client {
 	
 	private static final int SERVER_PORT = 7896;
@@ -27,6 +33,16 @@ public class Client {
 	private static Logger logger = Logger.getInstance();
 	private static boolean isInputFinished = false;
 	
+	/**
+	 * Main method that queries user for input type: student, professor or bad.
+	 * The first to will lead to calling {@link Client#startStudentInput()} and {@link #startProfessorInput()}
+	 * and starting the input process for the creation of a Student or a Professor object, which is then 
+	 * marshalled and sent to the server in accordance with the protocol. 
+	 * If bad is input by the user a malformed XML file of type student is sent to the server
+	 * to the server to showcase server behavior: the server will notify the client of
+	 * malformed XML and the client will start the user input process again by calling {@link #startStudentInput()}.
+	 * @param args No arguments used
+	 */
 	public static void main(String args[]) {
 				
 		log("Enter '"
@@ -63,6 +79,11 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Starts the input for the creation of a Student object and 
+	 * the sending of the mashalled XML file to the server. 
+	 * Continues to loop until validation on serverside was successful.
+	 */
 	private static void startStudentInput() {
 		while (!isInputFinished) {
 			Student s = handleStudent();
@@ -73,6 +94,11 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Starts the input for the creation of a Professor object and 
+	 * the sending of the mashalled XML file to the server. 
+	 * Continues to loop until validation on serverside was successful.
+	 */
 	private static void startProfessorInput() {
 		while (!isInputFinished) {
 			Professor p = handleProfessor();
@@ -83,6 +109,18 @@ public class Client {
 		}
 	}
 		
+	/**
+	 * Executes communication protocol with server.
+	 * Sends information about type, Student or Professor and sends 
+	 * marshalled XML file to server. Then it waits for feedback from the server 
+	 * whether validation was successful or not. In case validation was successful,
+	 * a success message will be printed and the client will shut down. 
+	 * In case of an unsuccessful validation an error message it printed for the user
+	 * and the communication streams closed. While validation is unsuccessful this
+	 * method will continue to be run by {@link #startProfessorInput()} and {@link #startProfessorInput()}.
+	 * @param path
+	 * @param type
+	 */
 	private static void sendFile(Path path, String type) {
 		
 		log("Sending to server...");
@@ -157,6 +195,11 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Validates the user input for int, continues to request
+	 * new input if input can't be pared to int.
+	 * @return The number the user input
+	 */
 	private static int validateIntegerInput() {
 		int inputInt = 0;
 		boolean validatedInput = false;
@@ -172,6 +215,11 @@ public class Client {
 		return inputInt;
 	}
 	
+	/**
+	 * Validates user input for non-empty String, continues to request new
+	 * user input if input is determined to be empty String.
+	 * @return The String the user input
+	 */
 	private static String validateNonEmptyStringInput() {
 		String input = "";
 		boolean validatedInput = false;
@@ -186,6 +234,12 @@ public class Client {
 		return input;
 	}
 	
+	/**
+	 * Handles the input of Student related information by the user.
+	 * Uses validation methods {@link #validateIntegerInput()}and 
+	 * {@link #validateNonEmptyStringInput()} for validating input.
+	 * @return A Student object with complete and validated fields
+	 */
 	private static Student handleStudent() {
 		
 		Student student = new Student();
@@ -223,6 +277,13 @@ public class Client {
 		return student;
 	}
 	
+	/**
+	 * Handles the input of Professor related information by the user.
+	 * Uses validation methods {@link #validateIntegerInput()}, 
+	 * {@link #validateLocalDateInput()} and 
+	 * {@link #validateNonEmptyStringInput()} for validating input.
+	 * @return A Professor object with complete and validated fields
+	 */
 	private static Professor handleProfessor() {
 		
 		Professor professor = new Professor();
@@ -260,6 +321,11 @@ public class Client {
 		return professor;
 	}
 	
+	/**
+	 * Validates user input for LocalDate, continues to request new
+	 * user input if input does not parse to a valid LocalDate..
+	 * @return The LocalDate input by the user
+	 */
 	private static LocalDate validateLocalDateInput() {
 		LocalDate input = null;
 		boolean validatedInput = false;
@@ -275,6 +341,10 @@ public class Client {
 		return input;
 	}
 	
+	/**
+	 * Reads the next line the user enters on the console.
+	 * @return The String the user input
+	 */
 	private static String readLine() {
 		try {
 			return buffer.readLine();
@@ -284,6 +354,11 @@ public class Client {
 		return null;
 	}
 	
+	/**
+	 * Prints message to console. Neither {@link Logger#error(String)} nor
+	 *  {@link Logger#info(String)} fits, therefore own method is used.
+	 * @param message The message to be printed on the console
+	 */
 	private static void log(String message) {
 		System.out.println(message);
 	}

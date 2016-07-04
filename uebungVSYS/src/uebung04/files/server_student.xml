@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Student>
     <address>
-        <street>4</street>
-        <houseNumber>4</houseNumber>
-        <postCode>4</postCode>
-        <city>4</city>
+        <street>56</street>
+        <houseNumber>6</houseNumber>
+        <postCode>77</postCode>
+        <city>7</city>
     </address>
     <name>4</name>
-    <surname>4</surname>
-    <program>4</program>
-    <semester>4</semester>
-    <studentNumber>44444</studentNumber>
+    <surname>5</surname>
+    <program>77</program>
+    <semester>7</semester>
+    <studentNumber>7</studentNumber>
 </Student>

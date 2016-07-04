@@ -17,6 +17,11 @@ import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.SAXException;
 
+/**
+ * Handles marshalling and unmarshalling of Student object. Implements ValidationEventHandler
+ * for onValidation events, such as validation errors.
+ * @author Bianca Ploch
+ */
 public class StudentHandler implements ValidationEventHandler {
 
 	private JAXBContext context;
@@ -25,6 +30,10 @@ public class StudentHandler implements ValidationEventHandler {
 	private Logger logger = Logger.getInstance();
 	private List<ValidationEvent> validationEvents = new ArrayList<ValidationEvent>();
 	
+	/**
+	 * Constructor that initializes Marshaller and Unmarshaller objects. 
+	 * Sets student.xsd schema to Unmarshaller for XML validation during unmarshalling.
+	 */
 	public StudentHandler() {
 		try {
 			context = JAXBContext.newInstance(Student.class);
@@ -47,6 +56,11 @@ public class StudentHandler implements ValidationEventHandler {
 		}
 	}
 	
+	/**
+	 * Marshals the student into a XML file at the given path
+	 * @param student Student Object to be marshalled
+	 * @param path Path to save the resulting XML file
+	 */
 	public void marshal(Student student, Path path) {
 		try {
 			
@@ -57,6 +71,13 @@ public class StudentHandler implements ValidationEventHandler {
 		}
 	}
 	
+	/**
+	 * Unmarshals the XML file at the given path
+	 * @param path Path for the XML file to be unmarshalled
+	 * @return The Student object from the XML file
+	 * @throws JAXBException To be handled in class that calls {@link #unmarshal(Path)} for 
+	 * communicating validation error to the client
+	 */
 	public Student unmarshal(Path path) throws JAXBException {
 		Student s = (Student)unmarshaller.unmarshal(new File(path.toString()));
 		
@@ -71,6 +92,9 @@ public class StudentHandler implements ValidationEventHandler {
 		return s;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.xml.bind.ValidationEventHandler#handleEvent(javax.xml.bind.ValidationEvent)
+	 */
 	@Override
 	public boolean handleEvent(ValidationEvent event) {
 		validationEvents.add(event);

@@ -10,6 +10,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+/**
+ * Serializable class for Professor for XML generation
+ * @author Bianca Ploch
+ */
 @XmlRootElement(name="Professor")
 public class Professor extends Human {
 
@@ -18,36 +22,66 @@ public class Professor extends Human {
 	private String faculty;
 	
 	
+	/**
+	 * Empty constructor
+	 */
 	public Professor() {}
 	
+	/**
+	 * Getter for birth date
+	 * @return The birth date
+	 */
 	public LocalDate getBirthdate() {
 		return birthdate;
 	}
 	
+	/**
+	 * Setter for birth date
+	 * @param birthdate The birth date
+	 */
 	@XmlElement
 	@XmlJavaTypeAdapter(XMLDateAdapter.class)
 	public void setBirthdate(LocalDate birthdate) {
 		this.birthdate = birthdate;
 	}
 	
+	/**
+	 * Getter for personnel number
+	 * @return The personnel number
+	 */
 	public int getPersonnelNumber() {
 		return personnelNumber;
 	}
 	
+	/**
+	 * Setter for personnel number
+	 * @param personnelNumber The personnel number
+	 */
 	@XmlElement
 	public void setPersonnelNumber(int personnelNumber) {
 		this.personnelNumber = personnelNumber;
 	}
 	
+	/**
+	 * Getter for factuly
+	 * @return The faculty
+	 */
 	public String getFaculty() {
 		return faculty;
 	}
 	
+	/**
+	 * Setter for faculty
+	 * @param faculty The faculty
+	 */
 	@XmlElement
 	public void setFaculty(String faculty) {
 		this.faculty = faculty;
 	}
 	
+	/* (non-Javadoc)
+	 * @see uebung04.Human#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Professor"
