@@ -1,26 +1,35 @@
 package uebung03serverClientXml;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.ValidationEvent;
+import javax.xml.bind.ValidationEventHandler;
+import javax.xml.bind.ValidationException;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.SAXException;
 
-public class ProfessorHandler {
+import util.Logger;
+
+public class ProfessorHandler implements ValidationEventHandler {
 
 	private JAXBContext context;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
+	private Logger logger = Logger.getInstance();
+	private List<ValidationEvent> validationEvents = new ArrayList<ValidationEvent>();
 	
 	public ProfessorHandler() {
 		try {
-			context = JAXBContext.newInstance(Professor.class); //TODO check mulitple classes new instance
+			context = JAXBContext.newInstance(Professor.class);
 			marshaller = context.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			unmarshaller = context.createUnmarshaller();
@@ -29,12 +38,13 @@ public class ProfessorHandler {
 			Schema schema = schemaFactory.newSchema(new File(Paths.PROFESSOR_SCHEMA.toString()));
 			unmarshaller.setSchema(schema);
 			
-			unmarshaller.setEventHandler(new HumanValidationEventHandler());
+			unmarshaller.setEventHandler(this);
 			
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error(Strings.JAXB_EXCEPTION);
+			
 		} catch (SAXException e) {
-			e.printStackTrace();
+			logger.error(Strings.SAXB_EXCEPTION);
 		}
 	}
 	
@@ -42,18 +52,28 @@ public class ProfessorHandler {
 		try {
 			File xmlFile = new File(path.toString());
 			marshaller.marshal(professor, xmlFile);
-			marshaller.marshal(professor,  System.out);			
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error(Strings.MARSHALL_ERROR);
 		}
 	}
 	
-	public Professor unmarshal(Paths path) {
-		try {
-			return (Professor)unmarshaller.unmarshal(new File(path.toString()));
-		} catch (JAXBException e) {
-			e.printStackTrace();
+	public Professor unmarshal(Paths path) throws JAXBException {
+		Professor p = (Professor)unmarshaller.unmarshal(new File(path.toString()));
+		
+		if (validationEvents.size() > 0) {
+			StringBuilder builder = new StringBuilder();
+			for (ValidationEvent event : validationEvents) {
+				builder.append(event.getMessage()).append("\n");
+			}
+			throw new ValidationException(builder.toString());
 		}
-		return null;
+		
+		return p;
+	}
+
+	@Override
+	public boolean handleEvent(ValidationEvent event) {
+		validationEvents.add(event);
+		return true;
 	}
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Professor>
     <address>
-        <street>4</street>
-        <houseNumber>4</houseNumber>
-        <postCode>4</postCode>
-        <city>4</city>
+        <street>g</street>
+        <houseNumber>5</houseNumber>
+        <postCode>5</postCode>
+        <city>5</city>
     </address>
-    <name>4</name>
-    <surname>4</surname>
-    <birthdate>1999-01-01</birthdate>
-    <faculty>4</faculty>
-    <personnelNumber>4</personnelNumber>
+    <name>g</name>
+    <surname>g</surname>
+    <birthdate>5555-11-11</birthdate>
+    <faculty>5</faculty>
+    <personnelNumber>5</personnelNumber>
 </Professor>

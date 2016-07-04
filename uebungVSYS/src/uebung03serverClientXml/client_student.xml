@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Student>
     <address>
-        <street>3</street>
+        <street>f</street>
         <houseNumber>3</houseNumber>
         <postCode>3</postCode>
         <city>3</city>
     </address>
-    <name>3</name>
-    <surname>3</surname>
+    <name>f</name>
+    <surname>d</surname>
     <program>3</program>
     <semester>3</semester>
     <studentNumber>3</studentNumber>

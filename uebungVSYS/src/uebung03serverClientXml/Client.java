@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,6 +14,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.LocalDate;
+
+import util.Logger;
 
 public class Client {
 	
@@ -22,30 +25,48 @@ public class Client {
 	private static BufferedReader buffer = new BufferedReader(reader);
 	private static Socket socket;
 	private static StudentHandler studentHandler = new StudentHandler(); 
-	private static ProfessorHandler professorHandler = new ProfessorHandler(); 
+	private static ProfessorHandler professorHandler = new ProfessorHandler();
+	private static Logger logger = Logger.getInstance();
 	
 	public static void main(String args[]) {
-		log("Enter 'student' if you want to create a new student "
-				+ "and 'professor'if you want to create a new professor");		
+		log("Enter '"
+				+ Strings.STUDENT
+				+ "' if you want to create a new student "
+				+ "\nand '"
+				+ Strings.PROFESSOR
+				+ "'if you want to create a new professor \nor"
+				+ " enter '"
+				+ Strings.BAD
+				+ "' for sending a bad XML file to the server");		
 		
-		switch (readLine()) {
-		case "student":
-			
-			Student s = handleStudent();
-			log("Saving to XML...");
-			studentHandler.marshal(s, Paths.STUDENT_XML_CLIENT);
-			log("Saved.");
-			sendFile(Paths.STUDENT_XML_CLIENT, "student");
-			break;
-			
-		case "professor":
-			
-			Professor p = handleProfessor();
-			log("Saving to XML...");
-			professorHandler.marshal(p, Paths.PROFESSOR_XML_CLIENT);
-			log("Saved.");
-			sendFile(Paths.PROFESSOR_XML_CLIENT, "professor");
-			break;
+		String input = readLine();
+		while (!input.equals(Strings.STUDENT) 
+				&& !input.equals(Strings.PROFESSOR)
+				&& !input.equals(Strings.BAD)) {
+			log("Incorrect input. Please enter '" + Strings.SAXB_EXCEPTION 
+					+ "' or '" + Strings.PROFESSOR
+					+ "' or '" + Strings.BAD + "'");
+			input = readLine();
+		}
+		
+		switch (input) {
+			case Strings.STUDENT:				
+				Student s = handleStudent();
+				log("Saving to XML...");
+				studentHandler.marshal(s, Paths.STUDENT_XML_CLIENT);
+				log("Saved.");
+				sendFile(Paths.STUDENT_XML_CLIENT, Strings.STUDENT);
+				break;
+				
+			case Strings.PROFESSOR:				
+				Professor p = handleProfessor();
+				log("Saving to XML...");
+				professorHandler.marshal(p, Paths.PROFESSOR_XML_CLIENT);
+				log("Saved.");
+				sendFile(Paths.PROFESSOR_XML_CLIENT, Strings.PROFESSOR);
+				break;
+			case "bad":
+				sendFile(Paths.BAD_STUDENT_XML, Strings.STUDENT);
 		}
 	}
 		
@@ -60,10 +81,11 @@ public class Client {
 		try {
 			socket = new Socket("localhost", SERVER_PORT);
 			
-			//informin server about human type
+			//informing server about human type
 			DataInputStream inStream = new DataInputStream(socket.getInputStream());
 			DataOutputStream outStream = new DataOutputStream(socket.getOutputStream());
 			outStream.writeUTF(type);
+			
 			String acknowledgement = "";
 			while(acknowledgement.equals("")) {
 				acknowledgement = inStream.readUTF();
@@ -87,22 +109,60 @@ public class Client {
 			log("Sent.");
 			log("Waiting for feedback");
 			
-			inStream = new DataInputStream(socket.getInputStream());
 			String data = inStream.readUTF();
 			System.out.println(data);
 			
 			in.close();
 			inStream.close();
-			socket.close();
 			
 		} catch(UnknownHostException e){
-			System.out.println("Sock: " + e.getMessage());
+			logger.error(Strings.UNKNOWN_HOST_EXCEPTION);
+			
 		} catch(EOFException e){
-			System.out.println("EOF: " + e.getMessage());
+			logger.error(Strings.EOF_EXCEPTION);
+			
+		} catch (FileNotFoundException e) {
+			logger.error(Strings.FILE_NOT_FOUND_EXCEPTION);
+			
 		} catch(IOException e){
-			System.out.println("IO: " + e.getMessage());
-			e.printStackTrace();
+			logger.error(Strings.IO_EXCEPTION);
+			
+		} finally {
+			try {
+				if (socket != null) socket.close();				
+			} catch (IOException e2) {
+				logger.error(Strings.IO_EXCEPTION);
+			}
 		}
+	}
+	
+	private static int validateIntegerInput() {
+		int inputInt = 0;
+		boolean validatedInput = false;
+		while (!validatedInput) {
+			try {
+				inputInt = Integer.parseInt(readLine());
+				validatedInput = true;
+			} catch (Exception e) {
+				log("Incorrect input. Please enter a number");
+				continue;
+			}			
+		}
+		return inputInt;
+	}
+	
+	private static String validateNonEmptyStringInput() {
+		String input = "";
+		boolean validatedInput = false;
+		while (!validatedInput) {
+			input = readLine().trim();
+			if (input.length() == 0) {
+				log("Empty input. Please input something.");
+				continue;
+			}
+			validatedInput = true;
+		}
+		return input;
 	}
 	
 	private static Student handleStudent() {
@@ -111,31 +171,31 @@ public class Client {
 		Address address = new Address();
 		
 		log("Enter name");
-		student.setName(readLine());
+		student.setName(validateNonEmptyStringInput());
 		
 		log("Enter surname");
-		student.setSurname(readLine());
+		student.setSurname(validateNonEmptyStringInput());
 		
 		log("Enter street name");
-		address.setStreet(readLine());
+		address.setStreet(validateNonEmptyStringInput());
 		
 		log("Enter house number");
-		address.setHouseNumber(Integer.parseInt(readLine()));
+		address.setHouseNumber(validateIntegerInput());			
 		
 		log("Enter postcode");
-		address.setPostCode(Integer.parseInt(readLine()));
+		address.setPostCode(validateIntegerInput());
 		
 		log("Enter city");
-		address.setCity(readLine());
+		address.setCity(validateNonEmptyStringInput());
 		
 		log("Enter program");
-		student.setProgram(readLine());
+		student.setProgram(validateNonEmptyStringInput());
 		
 		log("Enter semester");
-		student.setSemester(Integer.parseInt(readLine()));
+		student.setSemester(validateIntegerInput());
 		
 		log("Enter student number");
-		student.setStudentNumber(Integer.parseInt(readLine()));
+		student.setStudentNumber(validateIntegerInput());
 		
 		student.setAddress(address);
 		
@@ -148,42 +208,57 @@ public class Client {
 		Address address = new Address();
 		
 		log("Enter name");
-		professor.setName(readLine());
+		professor.setName(validateNonEmptyStringInput());
 		
 		log("Enter surname");
-		professor.setSurname(readLine());
+		professor.setSurname(validateNonEmptyStringInput());
 		
 		log("Enter street name");
-		address.setStreet(readLine());
+		address.setStreet(validateNonEmptyStringInput());
 		
 		log("Enter house number");
-		address.setHouseNumber(Integer.parseInt(readLine()));
+		address.setHouseNumber(validateIntegerInput());
 		
 		log("Enter postcode");
-		address.setPostCode(Integer.parseInt(readLine()));
+		address.setPostCode(validateIntegerInput());
 		
 		log("Enter city");
-		address.setCity(readLine());
+		address.setCity(validateNonEmptyStringInput());
 		
 		log("Enter faculty");
-		professor.setFaculty(readLine());
+		professor.setFaculty(validateNonEmptyStringInput());
 		
 		log("Enter personnel number");
-		professor.setPersonnelNumber(Integer.parseInt(readLine()));
+		professor.setPersonnelNumber(validateIntegerInput());
 		
 		log("Enter birth date in format: YYYY-MM-DD");
-		professor.setBirthdate(LocalDate.parse(readLine()));
+		professor.setBirthdate(validateLocalDateInput());
 		
 		professor.setAddress(address);
 		
 		return professor;
 	}
 	
+	private static LocalDate validateLocalDateInput() {
+		LocalDate input = null;
+		boolean validatedInput = false;
+		
+		while (!validatedInput) {
+			try {input = LocalDate.parse(readLine());
+			validatedInput = true;
+			} catch (Exception e) {
+				log("Incorrect input. Please enter a date in the specified format YYYY-MM-DD");
+				continue;
+			}
+		}
+		return input;
+	}
+	
 	private static String readLine() {
 		try {
 			return buffer.readLine();
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			logger.error(Strings.IO_EXCEPTION);
 		}
 		return null;
 	}
