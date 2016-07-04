@@ -1,4 +1,4 @@
-package uebung03serverClientXml;
+package uebung04;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,9 +17,7 @@ import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.SAXException;
 
-import util.Logger;
-
-public class ProfessorHandler implements ValidationEventHandler {
+public class StudentHandler implements ValidationEventHandler {
 
 	private JAXBContext context;
 	private Marshaller marshaller;
@@ -27,38 +25,40 @@ public class ProfessorHandler implements ValidationEventHandler {
 	private Logger logger = Logger.getInstance();
 	private List<ValidationEvent> validationEvents = new ArrayList<ValidationEvent>();
 	
-	public ProfessorHandler() {
+	public StudentHandler() {
 		try {
-			context = JAXBContext.newInstance(Professor.class);
+			context = JAXBContext.newInstance(Student.class);
 			marshaller = context.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			unmarshaller = context.createUnmarshaller();
 			
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema schema = schemaFactory.newSchema(new File(Paths.PROFESSOR_SCHEMA.toString()));
+			Schema schema = schemaFactory.newSchema(new File(Path.STUDENT_SCHEMA.toString()));
 			unmarshaller.setSchema(schema);
 			
 			unmarshaller.setEventHandler(this);
-			
 		} catch (JAXBException e) {
 			logger.error(Strings.JAXB_EXCEPTION);
 			
+			
 		} catch (SAXException e) {
 			logger.error(Strings.SAXB_EXCEPTION);
+			e.printStackTrace();
 		}
 	}
 	
-	public void marshal(Professor professor, Paths path) {
+	public void marshal(Student student, Path path) {
 		try {
+			
 			File xmlFile = new File(path.toString());
-			marshaller.marshal(professor, xmlFile);
+			marshaller.marshal(student, xmlFile);			
 		} catch (JAXBException e) {
 			logger.error(Strings.MARSHALL_ERROR);
 		}
 	}
 	
-	public Professor unmarshal(Paths path) throws JAXBException {
-		Professor p = (Professor)unmarshaller.unmarshal(new File(path.toString()));
+	public Student unmarshal(Path path) throws JAXBException {
+		Student s = (Student)unmarshaller.unmarshal(new File(path.toString()));
 		
 		if (validationEvents.size() > 0) {
 			StringBuilder builder = new StringBuilder();
@@ -68,7 +68,7 @@ public class ProfessorHandler implements ValidationEventHandler {
 			throw new ValidationException(builder.toString());
 		}
 		
-		return p;
+		return s;
 	}
 
 	@Override

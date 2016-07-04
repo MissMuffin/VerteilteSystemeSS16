@@ -1,4 +1,4 @@
-package uebung03serverClientXml;
+package uebung04;
 
 public class Strings {
 	

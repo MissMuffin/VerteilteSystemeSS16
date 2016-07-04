@@ -1,4 +1,4 @@
-package uebung03serverClientXml;
+package uebung04;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -15,8 +15,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.LocalDate;
 
-import util.Logger;
-
 public class Client {
 	
 	private static final int SERVER_PORT = 7896;
@@ -27,8 +25,10 @@ public class Client {
 	private static StudentHandler studentHandler = new StudentHandler(); 
 	private static ProfessorHandler professorHandler = new ProfessorHandler();
 	private static Logger logger = Logger.getInstance();
+	private static boolean isInputFinished = false;
 	
 	public static void main(String args[]) {
+				
 		log("Enter '"
 				+ Strings.STUDENT
 				+ "' if you want to create a new student "
@@ -51,39 +51,55 @@ public class Client {
 		
 		switch (input) {
 			case Strings.STUDENT:				
-				Student s = handleStudent();
-				log("Saving to XML...");
-				studentHandler.marshal(s, Paths.STUDENT_XML_CLIENT);
-				log("Saved.");
-				sendFile(Paths.STUDENT_XML_CLIENT, Strings.STUDENT);
+				startStudentInput();
 				break;
 				
 			case Strings.PROFESSOR:				
-				Professor p = handleProfessor();
-				log("Saving to XML...");
-				professorHandler.marshal(p, Paths.PROFESSOR_XML_CLIENT);
-				log("Saved.");
-				sendFile(Paths.PROFESSOR_XML_CLIENT, Strings.PROFESSOR);
+				startProfessorInput();
 				break;
-			case "bad":
-				sendFile(Paths.BAD_STUDENT_XML, Strings.STUDENT);
+			case Strings.BAD:
+				sendFile(Path.BAD_STUDENT_XML, Strings.STUDENT);
+				if (!isInputFinished) startStudentInput();
+		}
+	}
+	
+	private static void startStudentInput() {
+		while (!isInputFinished) {
+			Student s = handleStudent();
+			log("Saving to XML...");
+			studentHandler.marshal(s, Path.STUDENT_XML_CLIENT);
+			log("Saved.");
+			sendFile(Path.STUDENT_XML_CLIENT, Strings.STUDENT);
+		}
+	}
+	
+	private static void startProfessorInput() {
+		while (!isInputFinished) {
+			Professor p = handleProfessor();
+			log("Saving to XML...");
+			professorHandler.marshal(p, Path.PROFESSOR_XML_CLIENT);
+			log("Saved.");
+			sendFile(Path.PROFESSOR_XML_CLIENT, Strings.PROFESSOR);
 		}
 	}
 		
-	private static void sendFile(Paths path, String type) {
+	private static void sendFile(Path path, String type) {
 		
 		log("Sending to server...");
 		
 		//create file
 		File file = new File(path.toString());
+		DataInputStream inStream = null;
+		DataOutputStream outStream = null;
+		InputStream in = null;
 
 		//open client socket
 		try {
 			socket = new Socket("localhost", SERVER_PORT);
 			
 			//informing server about human type
-			DataInputStream inStream = new DataInputStream(socket.getInputStream());
-			DataOutputStream outStream = new DataOutputStream(socket.getOutputStream());
+			inStream = new DataInputStream(socket.getInputStream());
+			outStream = new DataOutputStream(socket.getOutputStream());
 			outStream.writeUTF(type);
 			
 			String acknowledgement = "";
@@ -91,7 +107,7 @@ public class Client {
 				acknowledgement = inStream.readUTF();
 			}
 			
-			InputStream in = new FileInputStream(file);
+			in = new FileInputStream(file);
 			OutputStream out = socket.getOutputStream();
 			
 			// Get the size of the file
@@ -110,10 +126,12 @@ public class Client {
 			log("Waiting for feedback");
 			
 			String data = inStream.readUTF();
-			System.out.println(data);
-			
-			in.close();
-			inStream.close();
+			if (data.split(" ")[0].equals("XML")) {
+				log("Server received incomplete data. Please enter information for new " + type + " again.");
+			} else {
+				System.out.println(data);
+				isInputFinished = true;
+			}
 			
 		} catch(UnknownHostException e){
 			logger.error(Strings.UNKNOWN_HOST_EXCEPTION);
@@ -129,7 +147,10 @@ public class Client {
 			
 		} finally {
 			try {
-				if (socket != null) socket.close();				
+				if (socket != null) socket.close();
+				if (in != null) in.close();
+				if (inStream != null) inStream.close();
+				
 			} catch (IOException e2) {
 				logger.error(Strings.IO_EXCEPTION);
 			}

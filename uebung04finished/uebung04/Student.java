@@ -1,4 +1,4 @@
-package uebung03serverClientXml;
+package uebung04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -55,10 +55,10 @@ public class Student extends Human {
 	}
 
 	@Override
-	public Human read(Paths path) {
+	public Human read(Path path) {
 		Human result = null;
 		 try {
-		     ObjectInputStream oi = new ObjectInputStream(new FileInputStream(Paths.STUDENT_SER_SERVER.toString()));
+		     ObjectInputStream oi = new ObjectInputStream(new FileInputStream(Path.STUDENT_SER_SERVER.toString()));
 		     result = (Human) oi.readObject();
 		     oi.close();
 		 } catch (FileNotFoundException e) {

@@ -1,4 +1,4 @@
-package uebung03serverClientXml;
+package uebung04;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,8 +17,6 @@ import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.SAXException;
 
-import util.Logger;
-
 public class StudentHandler implements ValidationEventHandler {
 
 	private JAXBContext context;
@@ -35,19 +33,21 @@ public class StudentHandler implements ValidationEventHandler {
 			unmarshaller = context.createUnmarshaller();
 			
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema schema = schemaFactory.newSchema(new File(Paths.STUDENT_SCHEMA.toString()));
+			Schema schema = schemaFactory.newSchema(new File(Path.STUDENT_SCHEMA.toString()));
 			unmarshaller.setSchema(schema);
 			
 			unmarshaller.setEventHandler(this);
 		} catch (JAXBException e) {
 			logger.error(Strings.JAXB_EXCEPTION);
 			
+			
 		} catch (SAXException e) {
 			logger.error(Strings.SAXB_EXCEPTION);
+			e.printStackTrace();
 		}
 	}
 	
-	public void marshal(Student student, Paths path) {
+	public void marshal(Student student, Path path) {
 		try {
 			
 			File xmlFile = new File(path.toString());
@@ -57,7 +57,7 @@ public class StudentHandler implements ValidationEventHandler {
 		}
 	}
 	
-	public Student unmarshal(Paths path) throws JAXBException {
+	public Student unmarshal(Path path) throws JAXBException {
 		Student s = (Student)unmarshaller.unmarshal(new File(path.toString()));
 		
 		if (validationEvents.size() > 0) {

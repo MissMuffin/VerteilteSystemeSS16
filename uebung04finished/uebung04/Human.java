@@ -1,6 +1,7 @@
-package uebung03serverClientXml;
+package uebung04;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
@@ -8,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 public abstract class Human implements Serializable {
 	
-	public abstract Human read(Paths path);
+	public abstract Human read(Path path);
 
 	private String name;
 	private String surname;
@@ -42,16 +43,16 @@ public abstract class Human implements Serializable {
 		this.address = address;
 	}
 	
-	public void write(Paths path) {
+	public void write(Path path) {
 		try{			   
 			FileOutputStream fout = new FileOutputStream(path.toString());
 			ObjectOutputStream oos = new ObjectOutputStream(fout);   
 			oos.writeObject(this);
 			oos.close();
-			System.out.println(getClass().getName() + " :done");
+			System.out.println(getClass().getName() + ": finished saving SER");
 			   
-		   }catch(Exception e){
-			   e.printStackTrace();
+		   }catch(IOException e){
+			   Logger.getInstance().error(Strings.IO_EXCEPTION);
 		   }
 	}
 	

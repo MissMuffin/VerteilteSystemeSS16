@@ -1,18 +1,15 @@
-package uebung03serverClientXml;
+package uebung04;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
-
-import util.Logger;
 
 public class Connection {
 
@@ -40,11 +37,13 @@ public class Connection {
         	
         	try {
 	        	if (type.equals(Strings.STUDENT)) {
-        			Student s = studentHandler.unmarshal(Paths.STUDENT_XML_SERVER);
-        			System.out.println(s.toString());	
+        			Student s = studentHandler.unmarshal(Path.STUDENT_XML_SERVER);
+        			System.out.println(s.toString());
+        			s.write(Path.STUDENT_SER_SERVER);
 				}else {
-					Professor p = professorHandler.unmarshal(Paths.PROFESSOR_XML_SERVER);
+					Professor p = professorHandler.unmarshal(Path.PROFESSOR_XML_SERVER);
 					System.out.println(p.toString());
+					p.write(Path.PROFESSOR_SER_SERVER);
 				}
 	        	
 	        	System.out.println("Sending feedback");
@@ -95,9 +94,9 @@ public class Connection {
         
         try {
 			if (type.equals(Strings.STUDENT)) {
-				out = new FileOutputStream(Paths.STUDENT_XML_SERVER.toString());				
+				out = new FileOutputStream(Path.STUDENT_XML_SERVER.toString());				
 			} else {
-				out = new FileOutputStream(Paths.PROFESSOR_XML_SERVER.toString());								
+				out = new FileOutputStream(Path.PROFESSOR_XML_SERVER.toString());								
 			}
 	    	
 	    	while ((count = inStream.read(bytes)) > 0) {
